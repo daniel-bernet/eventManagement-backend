@@ -25,7 +25,22 @@ def sign_out_event(db, event_id, user_id):
     return db.events.update_one({"_id": ObjectId(event_id)}, {"$pull": {"attendees": user_id}})
 
 def get_all_events(db):
-    return list(db.events.find({}))
+    events = db.events.find()
+    results = []
+    for event in events:
+        event['_id'] = str(event['_id'])
+        if 'creator' in event:
+            creator = db.users.find_one({"_id": ObjectId(event['creator'])})
+            if creator:
+                event['creator'] = creator['username']
+            else:
+                event['creator'] = "Unknown"
+        if 'timestamp' in event and event['timestamp']:
+            event['timestamp'] = event['timestamp'].isoformat()
+        results.append(event)
+    return results
+
+
 
 def search_events(db, query):
     return list(db.events.find({"$text": {"$search": query}}))

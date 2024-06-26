@@ -20,3 +20,8 @@ def validate_user(db, username, password):
 def delete_user(db, username):
     result = db.users.delete_one({"username": username})
     return result.deleted_count > 0
+
+def is_user_valid(user_id):
+    if not ObjectId.is_valid(user_id):
+        return False
+    return True

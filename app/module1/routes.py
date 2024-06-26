@@ -2,7 +2,7 @@
 from flask import Blueprint, request, jsonify, session, current_app
 from .models import create_user, validate_user, delete_user
 
-mod1 = Blueprint('auth', __name__)
+mod1 = Blueprint('users', __name__)
 
 @mod1.route('/register', methods=['POST'])
 def register():
