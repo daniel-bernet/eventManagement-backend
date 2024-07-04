@@ -29,18 +29,19 @@ def get_all_events(db):
     results = []
     for event in events:
         event['_id'] = str(event['_id'])
-        if 'creator' in event:
-            creator = db.users.find_one({"_id": ObjectId(event['creator'])})
-            if creator:
-                event['creator'] = creator['username']
-            else:
-                event['creator'] = "Unknown"
+
+        creator_info = {'id': str(event['creator']), 'username': "Unknown"}
+        creator = db.users.find_one({"_id": ObjectId(event['creator'])})
+        if creator:
+            creator_info['username'] = creator.get('username', 'Unknown')
+        event['creator'] = creator_info
+
+        event['attendees'] = [str(user_id) for user_id in event.get('attendees', [])]
+
         if 'timestamp' in event and event['timestamp']:
             event['timestamp'] = event['timestamp'].isoformat()
         results.append(event)
     return results
-
-
 
 def search_events(db, query):
     return list(db.events.find({"$text": {"$search": query}}))

@@ -29,5 +29,10 @@ def delete_account():
     if 'username' in session:
         username = session['username']
         if delete_user(current_app.db, username):
-            return jsonify({"message": "User deleted successfully"}), 200
-    return jsonify({"error": "Failed to delete user or not logged in"}), 400
+            session.pop('username', None)
+            session.pop('user_id', None)
+            return jsonify({"message": "User and associated data deleted successfully"}), 200
+        else:
+            return jsonify({"error": "User not found"}), 404
+    return jsonify({"error": "Not logged in"}), 401
+

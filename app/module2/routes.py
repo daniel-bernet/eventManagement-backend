@@ -1,7 +1,7 @@
 # app/module1/routes.py
 from flask import Blueprint, logging, request, jsonify, current_app
 
-from app.module1.models import is_user_valid
+from app.module1.models import get_dashboard_data, is_user_valid
 from .models import create_event, delete_event, sign_in_event, sign_out_event, get_all_events, search_events
 from bson import ObjectId
 import datetime
@@ -14,7 +14,7 @@ def create():
         return jsonify({"error": "Missing user ID"}), 400
 
     user_id = request.json['user_id']
-    # Ensure the user is authenticated and authorized to create an event
+
     if not is_user_valid(user_id):
         return jsonify({"error": "Unauthorized"}), 401
 
@@ -69,6 +69,14 @@ def get_all():
 
 @mod2.route('/search', methods=['GET'])
 def search():
-    query = request.args.get('query', '')  # Use query parameter for search
+    query = request.args.get('query', '')
     events = search_events(current_app.db, query)
     return jsonify(events), 200
+
+@mod2.route('/dashboard', methods=['GET'])
+def dashboard_summary():
+    try:
+        data = get_dashboard_data(current_app.db)
+        return jsonify(data), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
