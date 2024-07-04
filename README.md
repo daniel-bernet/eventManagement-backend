@@ -82,16 +82,16 @@ Outline of the system architecture including client, server and database.
 |-|-|-|-|-|-|-|
 |BE-01|Python VENV|1h|high|Create python project with virtual environment.|VENV created and used as interpreter. Dependencies listed in `requirements.txt`. Tested for successful local interaction with flask app.|y|
 |BE-02|User Management|1h|high|Basic rudimentary usermanagement.|Implementation of user model. Implemented and tested endpoints `/register`, `/login` and `/delete` for user model.|y|
-|BE-03|Event Management|2h|high|Basic event management.|Implementation of event model. Implemented and tested endpoints `/create`, `/participate`, `/cancle`, `/edit` and `/delete` for event model.|n|
-|BE-04|Event Analysis|2h|medium|Global analysis and search functionality for events and users.|Implementation of meaningful analysis and search methods for events and user data.|n|
+|BE-03|Event Management|2h|high|Basic event management.|Implementation of event model. Implemented and tested endpoints `/create`, `/participate`, `/cancle`, `/edit` and `/delete` for event model.|y|
+|BE-04|Event Analysis|2h|medium|Global analysis and search functionality for events and users.|Implementation of meaningful analysis and search methods for events and user data.|y|
 
 #### Epic Frontend
 
 |ID|Title|Estimate|Priority|Requirements|DoD|Done|
 |-|-|-|-|-|-|-|
-|FE-01|Angular Project init|1h|high|Generate Angular project and plan out frontend stucture.|Angular project initialised and file-folder structured implemented.|n|
+|FE-01|Angular Project init|1h|high|Generate Angular project and plan out frontend stucture.|Angular project initialised and file-folder structured implemented.|y|
 |FE-02|Mockup Realisation|4h|high|Implement the basic look and feel of the Mockup.|Angular-Site resembles Mockup, including css, routing, pages and components.|n|
-|FE-03|API-Frontend|2h|medium|Implement the backend API-endpoints and logic in to the frontend.|Backend logic and DB-Data implemented following the mockup functionality description.|n|
+|FE-03|API-Frontend|2h|medium|Implement the backend API-endpoints and logic in to the frontend.|Backend logic and DB-Data implemented following the mockup functionality description.|y|
 
 #### Epic Deployment
 
