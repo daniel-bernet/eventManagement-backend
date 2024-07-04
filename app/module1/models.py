@@ -1,13 +1,13 @@
 # app/module1/models.py
 from datetime import datetime
+import os
 from werkzeug.security import generate_password_hash, check_password_hash
 from bson import ObjectId
 from pymongo import MongoClient
 from pymongo.errors import OperationFailure
 from contextlib import contextmanager
 
-# Assuming MongoDB is connected and configured to use sessions
-client = MongoClient('mongodb://localhost:27017/')
+client = MongoClient(os.getenv('MONGO_URI'))
 db = client.your_database
 
 def create_user(db, username, password):
@@ -65,23 +65,9 @@ def get_dashboard_data(db):
     upcoming_events = db.events.count_documents({"timestamp": {"$gte": datetime.now()}})
     past_events = db.events.count_documents({"timestamp": {"$lt": datetime.now()}})
 
-    user_activity = db.events.aggregate([
-        {"$unwind": "$attendees"},
-        {"$group": {
-            "_id": "$attendees",
-            "count": {"$sum": 1}
-        }},
-        {"$group": {
-            "_id": None,
-            "average": {"$avg": "$count"}
-        }}
-    ])
-    average_events_per_user = list(user_activity)[0]['average'] if user_activity else 0
-
     return {
         "totalEvents": total_events,
         "totalUsers": total_users,
         "upcomingEvents": upcoming_events,
         "pastEvents": past_events,
-        "averageEventsPerUser": average_events_per_user
     }
